@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TaxMitra – DJ Associates</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0b1f3a;
+      --gold: #c9a84c;
+      --gold-light: #f0d080;
+      --cream: #fdf8ef;
+      --text: #1a2b3c;
+      --muted: #5a6e82;
+      --border: #ddd5c0;
+      --white: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--navy);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 18px;
+      color: var(--navy);
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.5px;
+    }
+
+    .logo-text span {
+      color: var(--gold);
+    }
+
+    .header-tagline {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #163459 60%, #1a4070 100%);
+      padding: 80px 40px 90px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.15) 0%, transparent 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold-light);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.7);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main {
+      max-width: 1100px;
+      margin: -40px auto 60px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 8px 40px rgba(11,31,58,0.1);
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .card-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* ── SERVICES ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .service-item {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .service-item:hover {
+      border-color: var(--gold);
+      background: #fffdf5;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(201,168,76,0.15);
+    }
+
+    .service-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .service-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .service-desc {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    /* ── FEATURES ── */
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .feature {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .feature-dot {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .feature-text strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .feature-text span {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ── CONTACT CARD ── */
+    .contact-card {
+      background: var(--navy);
+      border-radius: 16px;
+      padding: 30px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.7s 0.35s ease both;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(201,168,76,0.2), transparent 70%);
+      border-radius: 50%;
+    }
+
+    .contact-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .firm-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .contact-icon {
+      width: 38px;
+      height: 38px;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .contact-info strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .contact-info span {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.5px;
+    }
+
+    .cta-btn {
+      display: block;
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(201,168,76,0.4);
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 8px 40px rgba(11,31,58,0.08);
+      animation: fadeUp 0.7s 0.45s ease both;
+    }
+
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .form-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--cream);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+      background: #fffdf5;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 13px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .form-submit:hover {
+      background: #163459;
+      transform: translateY(-1px);
+    }
+
+    /* ── TESTIMONIAL ── */
+    .testimonial-card {
+      background: linear-gradient(135deg, #fffdf5, var(--cream));
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      animation: fadeUp 0.7s 0.55s ease both;
+    }
+
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .quote-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+
+    .quote-author strong {
+      display: block;
+      font-size: 13px;
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .quote-author span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .stars {
+      color: var(--gold);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    /* ── CALCULATORS SECTION ── */
+    .calc-section {
+      max-width: 1100px;
+      margin: 0 auto 60px;
+      padding: 0 24px;
+    }
+
+    .calc-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .calc-section-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .calc-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .calc-tab {
+      padding: 10px 22px;
+      border-radius: 30px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .calc-tab:hover { border-color: var(--gold); color: var(--navy); }
+
+    .calc-tab.active {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+
+    .calc-panel { display: none; }
+    .calc-panel.active { display: block; }
+
+    .calc-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 8px 40px rgba(11,31,58,0.1);
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    @media (max-width: 700px) {
+      .calc-grid { grid-template-columns: 1fr; }
+    }
+
+    .calc-field {
+      margin-bottom: 16px;
+    }
+
+    .calc-field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .calc-field input,
+    .calc-field select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--cream);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .calc-field input:focus,
+    .calc-field select:focus { border-color: var(--gold); background: #fffdf5; }
+
+    .calc-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .calc-btn:hover { background: #163459; transform: translateY(-1px); }
+
+    .calc-result {
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: none;
+    }
+
+    .calc-result.show { display: block; }
+
+    .result-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      font-size: 13px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .result-row:last-child { border-bottom: none; }
+
+    .result-row .label { color: var(--muted); }
+    .result-row .value { font-weight: 600; color: var(--navy); }
+
+    .result-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding: 14px 18px;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .result-total .tax-amt { color: var(--gold); font-size: 18px; }
+
+    .regime-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .badge-new { background: #e8f5e9; color: #2e7d32; }
+    .badge-old { background: #fff3e0; color: #e65100; }
+
+    .regime-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .regime-box {
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+
+    .regime-box.better { border-color: #2e7d32; background: #f1f8f1; }
+    .regime-box.worse  { border-color: var(--border); background: #fafafa; }
+
+    .regime-box .r-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; }
+    .regime-box .r-tax   { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin: 4px 0; }
+    .regime-box .r-tag   { font-size: 11px; color: #2e7d32; font-weight: 600; }
+    .regime-box.worse .r-tag { color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      text-align: center;
+      padding: 24px 40px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.5px;
+    }
+
+    footer span {
+      color: var(--gold);
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11,31,58,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 24px 80px rgba(11,31,58,0.3);
+      position: relative;
+      animation: modalIn 0.3s ease both;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--muted);
+      line-height: 1;
+    }
+    .modal-close:hover { color: var(--navy); }
+    .modal-icon { font-size: 40px; margin-bottom: 14px; }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .modal-tagline {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+    .modal-includes {
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 22px;
+    }
+    .modal-includes h4 {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .modal-includes ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .modal-includes ul li {
+      font-size: 13px;
+      color: var(--text);
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .modal-includes ul li::before {
+      content: '✓';
+      color: var(--gold);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .modal-cta {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .modal-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(201,168,76,0.4);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 800px) {
+      .main {
+        grid-template-columns: 1fr;
+        margin-top: -20px;
+      }
+      .services-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .hero { padding: 60px 24px 80px; }
+    }
+
+    @media (max-width: 500px) {
+      .services-grid { grid-template-columns: 1fr; }
+      header { padding: 0 20px; }
+      .header-tagline { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">T</div>
+    <div class="logo-text">Tax<span>Mitra</span></div>
+  </div>
+  <div class="header-tagline">Trusted Tax &amp; Compliance Partner</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Exclusive Partner</div>
+  <h1>Smart Tax Solutions<br/>for <span>Modern Businesses</span></h1>
+  <p>TaxMitra brings expert compliance, GST, and financial advisory services right to your door — powered by technology, delivered with trust.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-number">10K+</div>
+      <div class="stat-label">Clients Served</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">99%</div>
+      <div class="stat-label">On-time Filing</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">15+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="main">
+
+  <!-- LEFT COLUMN -->
+  <div style="display:flex;flex-direction:column;gap:28px;">
+
+    <!-- Services -->
+    <div class="card">
+      <div class="card-title">Our Services</div>
+      <div class="card-sub">Comprehensive tax & compliance solutions for your business</div>
+      <div class="services-grid">
+        <div class="service-item" onclick="openModal('gst')">
+          <div class="service-icon">🧾</div>
+          <div class="service-name">GST Filing</div>
+          <div class="service-desc">Monthly, quarterly & annual GST returns</div>
+        </div>
+        <div class="service-item" onclick="openModal('it')">
+          <div class="service-icon">📊</div>
+          <div class="service-name">Income Tax</div>
+          <div class="service-desc">ITR filing for individuals & businesses</div>
+        </div>
+        <div class="service-item" onclick="openModal('roc')">
+          <div class="service-icon">🏛️</div>
+          <div class="service-name">ROC Compliance</div>
+          <div class="service-desc">Company filings & MCA compliance</div>
+        </div>
+        <div class="service-item" onclick="openModal('tds')">
+          <div class="service-icon">📑</div>
+          <div class="service-name">TDS Returns</div>
+          <div class="service-desc">TDS/TCS filing & form 26Q/24Q</div>
+        </div>
+        <div class="service-item" onclick="openModal('audit')">
+          <div class="service-icon">🔍</div>
+          <div class="service-name">Tax Audit</div>
+          <div class="service-desc">3CB, 3CD audit under Income Tax Act</div>
+        </div>
+        <div class="service-item" onclick="openModal('biz')">
+          <div class="service-icon">💼</div>
+          <div class="service-name">Business Setup</div>
+          <div class="service-desc">Company registration & startup advisory</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why Choose Us -->
+    <div class="card">
+      <div class="card-title">Why Choose TaxMitra?</div>
+      <div class="card-sub">Built for businesses that value accuracy and peace of mind</div>
+      <div class="features-list">
+        <div class="feature">
+          <div class="feature-dot">⚡</div>
+          <div class="feature-text">
+            <strong>Faster Turnaround</strong>
+            <span>Most filings completed within 24–48 hours with real-time status updates.</span>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-dot">🔒</div>
+          <div class="feature-text">
+            <strong>100% Secure &amp; Confidential</strong>
+            <span>Your financial data is encrypted and never shared with third parties.</span>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-dot">🎯</div>
+          <div class="feature-text">
+            <strong>Dedicated Account Manager</strong>
+            <span>A single point of contact who knows your business inside out.</span>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-dot">📱</div>
+          <div class="feature-text">
+            <strong>Digital-First Workflow</strong>
+            <span>Upload documents, track filings, and receive reports — all online.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- Contact Card -->
+    <div class="contact-card">
+      <div class="contact-label">Your Dedicated Partner</div>
+      <div class="firm-name">DJ Associates</div>
+
+      <div class="contact-row">
+        <div class="contact-icon">📞</div>
+        <div class="contact-info">
+          <strong>8790072850</strong>
+          <span>Call / WhatsApp</span>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-info">
+          <strong>djassociates999@gmail.com</strong>
+          <span>Email us anytime</span>
+        </div>
+      </div>
+
+      <a class="cta-btn" href="tel:8790072850">📞 &nbsp; Call Now for Free Consultation</a>
+    </div>
+
+    <!-- Lead Capture Form -->
+    <div class="form-card">
+      <div class="form-title">Get a Free Quote</div>
+      <div class="form-sub">Fill in your details and we'll reach out within 2 hours</div>
+
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="e.g. Rajesh Kumar" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="10-digit mobile number" />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Service Required</label>
+        <select>
+          <option value="">— Select a service —</option>
+          <option>GST Registration / Filing</option>
+          <option>Income Tax Return</option>
+          <option>TDS Return Filing</option>
+          <option>ROC / MCA Compliance</option>
+          <option>Tax Audit</option>
+          <option>Business Registration</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <button class="form-submit" onclick="this.textContent='✅ Request Sent!'; this.style.background='#1a6e3a';">Submit Request</button>
+    </div>
+
+    <!-- Testimonial -->
+    <div class="testimonial-card">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">TaxMitra through DJ Associates has been a game changer for our business. Filings are always on time and the team is incredibly responsive.</div>
+      <div class="quote-author">
+        <strong>Arvind Sharma</strong>
+        <span>Director, Sharma Exports Pvt. Ltd.</span>
+        <div class="stars">★★★★★</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CALCULATORS SECTION -->
+<div class="calc-section">
+  <div class="calc-section-title">Tax & Compliance Calculators</div>
+  <div class="calc-section-sub">Quick estimates for clients — FY 2025-26</div>
+
+  <div class="calc-tabs">
+    <button class="calc-tab active" onclick="switchCalc('it')">📊 Income Tax (FY 2025-26)</button>
+    <button class="calc-tab" onclick="switchCalc('gst')">🧾 GST Calculator</button>
+    <button class="calc-tab" onclick="switchCalc('tds')">📑 TDS Calculator</button>
+  </div>
+
+  <!-- ── INCOME TAX PANEL ── -->
+  <div class="calc-panel active" id="panel-it">
+    <div class="calc-card">
+      <div class="calc-grid">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:4px;">Income Tax Calculator</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:22px;">FY 2025-26 | AY 2026-27 — New vs Old Regime comparison</div>
+
+          <div class="calc-field">
+            <label>Annual Gross Income (₹)</label>
+            <input type="number" id="it-income" placeholder="e.g. 1200000" />
+          </div>
+          <div class="calc-field">
+            <label>Age Group</label>
+            <select id="it-age">
+              <option value="general">Below 60 years</option>
+              <option value="senior">60–80 years (Senior Citizen)</option>
+              <option value="supersenior">80+ years (Super Senior Citizen)</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label>HRA Exemption Claimed (₹) <span style="font-size:10px;color:var(--muted)">[Old Regime only]</span></label>
+            <input type="number" id="it-hra" placeholder="0" value="0" />
+          </div>
+          <div class="calc-field">
+            <label>Section 80C Investments (₹) <span style="font-size:10px;color:var(--muted)">[max ₹1,50,000]</span></label>
+            <input type="number" id="it-80c" placeholder="0" value="0" />
+          </div>
+          <div class="calc-field">
+            <label>Section 80D — Health Insurance (₹) <span style="font-size:10px;color:var(--muted)">[max ₹25,000]</span></label>
+            <input type="number" id="it-80d" placeholder="0" value="0" />
+          </div>
+          <div class="calc-field">
+            <label>Other Deductions — 80E, 80G, etc. (₹)</label>
+            <input type="number" id="it-other" placeholder="0" value="0" />
+          </div>
+          <button class="calc-btn" onclick="calcIT()">Calculate Tax</button>
+        </div>
+
+        <div>
+          <div id="it-result" class="calc-result">
+            <div class="result-title">Tax Breakdown — FY 2025-26</div>
+            <div id="it-result-body"></div>
+          </div>
+          <div id="it-placeholder" style="color:var(--muted);font-size:13px;margin-top:20px;line-height:1.7;">
+            Enter your income details on the left and click <strong>Calculate Tax</strong> to see a side-by-side comparison of the New Regime and Old Regime for FY 2025-26.
+            <br/><br/>
+            <strong style="color:var(--navy);">New Regime (Default):</strong> Lower slab rates, no major deductions.<br/>
+            <strong style="color:var(--navy);">Old Regime:</strong> Higher slabs but allows 80C, 80D, HRA, etc.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GST PANEL ── -->
+  <div class="calc-panel" id="panel-gst">
+    <div class="calc-card">
+      <div class="calc-grid">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:4px;">GST Calculator</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:22px;">Calculate GST amount or find base price from GST-inclusive amount</div>
+
+          <div class="calc-field">
+            <label>Calculation Type</label>
+            <select id="gst-type" onchange="updateGSTLabels()">
+              <option value="add">Add GST to base price</option>
+              <option value="remove">Extract GST from inclusive price</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label id="gst-amount-label">Base Price (₹)</label>
+            <input type="number" id="gst-amount" placeholder="e.g. 10000" />
+          </div>
+          <div class="calc-field">
+            <label>GST Rate</label>
+            <select id="gst-rate">
+              <option value="5">5% (Food, transport, etc.)</option>
+              <option value="12">12% (Processed food, textiles, etc.)</option>
+              <option value="18" selected>18% (Most services, electronics, etc.)</option>
+              <option value="28">28% (Luxury goods, automobiles, etc.)</option>
+              <option value="custom">Custom Rate</option>
+            </select>
+          </div>
+          <div class="calc-field" id="gst-custom-field" style="display:none;">
+            <label>Custom GST Rate (%)</label>
+            <input type="number" id="gst-custom" placeholder="e.g. 3" />
+          </div>
+          <button class="calc-btn" onclick="calcGST()">Calculate GST</button>
+        </div>
+
+        <div>
+          <div id="gst-result" class="calc-result">
+            <div class="result-title">GST Breakdown</div>
+            <div id="gst-result-body"></div>
+          </div>
+          <div id="gst-placeholder" style="color:var(--muted);font-size:13px;margin-top:20px;line-height:1.7;">
+            Enter the price and GST rate, then click <strong>Calculate GST</strong> to see CGST, SGST/UTGST, and IGST breakdowns.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TDS PANEL ── -->
+  <div class="calc-panel" id="panel-tds">
+    <div class="calc-card">
+      <div class="calc-grid">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:4px;">TDS Calculator</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:22px;">Estimate TDS deductible under common Income Tax Act sections</div>
+
+          <div class="calc-field">
+            <label>Payment Type / Section</label>
+            <select id="tds-section" onchange="updateTDSRate()">
+              <option value="192">Sec 192 — Salary</option>
+              <option value="194A">Sec 194A — Interest (Bank/others)</option>
+              <option value="194C">Sec 194C — Contractor / Sub-contractor</option>
+              <option value="194H">Sec 194H — Commission / Brokerage</option>
+              <option value="194I">Sec 194I — Rent (Land & Building)</option>
+              <option value="194J">Sec 194J — Professional / Technical Fees</option>
+              <option value="194Q">Sec 194Q — Purchase of Goods</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label>Payment Amount (₹)</label>
+            <input type="number" id="tds-amount" placeholder="e.g. 50000" />
+          </div>
+          <div class="calc-field">
+            <label>Deductee has PAN?</label>
+            <select id="tds-pan">
+              <option value="yes">Yes — Normal rate applies</option>
+              <option value="no">No — Higher rate (20% or twice, whichever higher)</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label>Applicable TDS Rate (%)</label>
+            <input type="number" id="tds-rate" placeholder="Rate" readonly style="background:#f0f0f0;cursor:not-allowed;" />
+          </div>
+          <button class="calc-btn" onclick="calcTDS()">Calculate TDS</button>
+        </div>
+
+        <div>
+          <div id="tds-result" class="calc-result">
+            <div class="result-title">TDS Breakdown</div>
+            <div id="tds-result-body"></div>
+          </div>
+          <div id="tds-placeholder" style="color:var(--muted);font-size:13px;margin-top:20px;line-height:1.7;">
+            Select the payment type — the TDS rate auto-fills. Enter the amount and click <strong>Calculate TDS</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICE MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-icon" id="mIcon"></div>
+    <div class="modal-title" id="mTitle"></div>
+    <div class="modal-tagline" id="mTagline"></div>
+    <div class="modal-includes">
+      <h4>What's Included</h4>
+      <ul id="mList"></ul>
+    </div>
+    <a class="modal-cta" href="tel:8790072850">📞 &nbsp; Call Now for Free Consultation</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2025 <span>TaxMitra</span> &nbsp;|&nbsp; Powered by DJ Associates &nbsp;|&nbsp; 8790072850 &nbsp;|&nbsp; djassociates999@gmail.com
+</footer>
+
+<script>
+  const services = {
+    gst: {
+      icon: '🧾',
+      title: 'GST Filing',
+      tagline: 'End-to-end GST compliance for your business — from registration to monthly, quarterly, and annual returns, handled accurately and on time.',
+      items: [
+        'GST Registration (new & amendments)',
+        'GSTR-1 / GSTR-3B monthly & quarterly filing',
+        'GSTR-9 & GSTR-9C annual return',
+        'GST reconciliation (Books vs GSTR-2A/2B)',
+        'Reply to GST notices & scrutiny',
+        'E-way bill assistance',
+      ]
+    },
+    it: {
+      icon: '📊',
+      title: 'Income Tax Filing',
+      tagline: 'Accurate ITR filing for salaried individuals, self-employed professionals, partnerships, and companies — maximising your refunds legally.',
+      items: [
+        'ITR-1 to ITR-6 filing (all categories)',
+        'Tax planning & deduction optimisation',
+        'Capital gains computation (stocks, property)',
+        'Advance tax calculation & challan',
+        'Income tax notice handling',
+        'Form 15CA / 15CB for foreign remittances',
+      ]
+    },
+    roc: {
+      icon: '🏛️',
+      title: 'ROC / MCA Compliance',
+      tagline: 'Keep your company fully compliant with Ministry of Corporate Affairs regulations, avoiding penalties and late fees.',
+      items: [
+        'Annual ROC filings (MGT-7, AOC-4)',
+        'Director KYC (DIR-3 KYC)',
+        'Charge creation / modification / satisfaction',
+        'Increase in authorised share capital',
+        'Company name change & object clause changes',
+        'Winding up & strike-off assistance',
+      ]
+    },
+    tds: {
+      icon: '📑',
+      title: 'TDS Return Filing',
+      tagline: 'Timely TDS/TCS deduction, deposit, and quarterly return filing to keep you penalty-free and compliant.',
+      items: [
+        'Quarterly filing of Form 24Q (salary TDS)',
+        'Quarterly filing of Form 26Q (non-salary TDS)',
+        'TCS return filing (Form 27EQ)',
+        'TDS on property purchase (Form 26QB)',
+        'Lower/NIL deduction certificate (Form 13)',
+        'Correction statements & TRACES assistance',
+      ]
+    },
+    audit: {
+      icon: '🔍',
+      title: 'Tax Audit',
+      tagline: 'Thorough and compliant tax audits under the Income Tax Act to meet statutory requirements and reduce audit risk.',
+      items: [
+        'Tax audit under Section 44AB (Form 3CB-3CD)',
+        'Transfer pricing audit (Form 3CEB)',
+        'Special audit u/s 142(2A)',
+        'Audit of charitable trusts (Form 10B)',
+        'Books of accounts verification',
+        'Representation before Income Tax authorities',
+      ]
+    },
+    biz: {
+      icon: '💼',
+      title: 'Business Setup',
+      tagline: 'From idea to incorporation — we handle all registrations and licenses so you can focus on growing your business.',
+      items: [
+        'Private Limited / LLP / OPC incorporation',
+        'Partnership firm & proprietorship registration',
+        'GST, MSME, Shop & Establishment registration',
+        'Startup India & DPIIT recognition',
+        'Import Export Code (IEC)',
+        'Trademark & IP registration assistance',
+      ]
+    }
+  };
+
+  function openModal(key) {
+    const s = services[key];
+    document.getElementById('mIcon').textContent = s.icon;
+    document.getElementById('mTitle').textContent = s.title;
+    document.getElementById('mTagline').textContent = s.tagline;
+    const ul = document.getElementById('mList');
+    ul.innerHTML = s.items.map(i => `<li>${i}</li>`).join('');
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOnBg(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // ── CALC TAB SWITCHER ──
+  function switchCalc(key) {
+    document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + key).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // ── HELPERS ──
+  function fmt(n) { return '₹' + Math.round(n).toLocaleString('en-IN'); }
+
+  // ── INCOME TAX FY 2025-26 ──
+  function calcIT() {
+    const income = parseFloat(document.getElementById('it-income').value) || 0;
+    const age    = document.getElementById('it-age').value;
+    const hra    = Math.min(parseFloat(document.getElementById('it-hra').value) || 0, income);
+    const c80c   = Math.min(parseFloat(document.getElementById('it-80c').value) || 0, 150000);
+    const c80d   = Math.min(parseFloat(document.getElementById('it-80d').value) || 0, 25000);
+    const other  = parseFloat(document.getElementById('it-other').value) || 0;
+
+    if (!income) { alert('Please enter your annual income.'); return; }
+
+    // NEW REGIME FY 2025-26 — standard deduction ₹75,000
+    const stdNew = 75000;
+    const taxableNew = Math.max(0, income - stdNew);
+
+    function slabNew(ti) {
+      if (ti <= 0) return 0;
+      let tax = 0;
+      const slabs = [
+        [300000, 0],
+        [400000, 0.05],
+        [300000, 0.10],
+        [300000, 0.15],
+        [300000, 0.20],
+        [Infinity, 0.30]
+      ];
+      let rem = ti;
+      for (const [limit, rate] of slabs) {
+        const chunk = Math.min(rem, limit);
+        tax += chunk * rate;
+        rem -= chunk;
+        if (rem <= 0) break;
+      }
+      return tax;
+    }
+
+    let taxNew = slabNew(taxableNew);
+    // Rebate u/s 87A: taxable income ≤ ₹12,00,000 → nil tax (Budget 2025)
+    const rebateNew = taxableNew <= 1200000 ? taxNew : 0;
+    taxNew = Math.max(0, taxNew - rebateNew);
+    let surchargeNew = 0;
+    if (income > 5000000 && income <= 10000000) surchargeNew = taxNew * 0.10;
+    else if (income > 10000000 && income <= 20000000) surchargeNew = taxNew * 0.15;
+    else if (income > 20000000) surchargeNew = taxNew * 0.25;
+    const cessNew = (taxNew + surchargeNew) * 0.04;
+    const totalNew = taxNew + surchargeNew + cessNew;
+
+    // OLD REGIME
+    const stdOld = 50000;
+    const totalDeductions = stdOld + hra + c80c + c80d + other;
+    const taxableOld = Math.max(0, income - totalDeductions);
+
+    function slabOld(ti, ageGroup) {
+      let slabs;
+      if (ageGroup === 'supersenior') {
+        slabs = [[500000,0],[500000,0.20],[Infinity,0.30]];
+      } else if (ageGroup === 'senior') {
+        slabs = [[300000,0],[200000,0.05],[500000,0.20],[Infinity,0.30]];
+      } else {
+        slabs = [[250000,0],[250000,0.05],[500000,0.20],[Infinity,0.30]];
+      }
+      let tax = 0, rem = ti;
+      for (const [limit, rate] of slabs) {
+        const chunk = Math.min(rem, limit);
+        tax += chunk * rate;
+        rem -= chunk;
+        if (rem <= 0) break;
+      }
+      return tax;
+    }
+
+    let taxOld = slabOld(taxableOld, age);
+    const rebateOld = taxableOld <= 500000 ? Math.min(taxOld, 12500) : 0;
+    taxOld = Math.max(0, taxOld - rebateOld);
+    let surchargeOld = 0;
+    if (income > 5000000 && income <= 10000000) surchargeOld = taxOld * 0.10;
+    else if (income > 10000000 && income <= 20000000) surchargeOld = taxOld * 0.15;
+    else if (income > 20000000 && income <= 50000000) surchargeOld = taxOld * 0.25;
+    else if (income > 50000000) surchargeOld = taxOld * 0.37;
+    const cessOld = (taxOld + surchargeOld) * 0.04;
+    const totalOld = taxOld + surchargeOld + cessOld;
+
+    const betterNew = totalNew <= totalOld;
+
+    const html = `
+      <div style="margin-bottom:18px;">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">New Regime (FY 2025-26)</div>
+        <div class="result-row"><span class="label">Gross Income</span><span class="value">${fmt(income)}</span></div>
+        <div class="result-row"><span class="label">Standard Deduction</span><span class="value">− ${fmt(stdNew)}</span></div>
+        <div class="result-row"><span class="label">Taxable Income</span><span class="value">${fmt(taxableNew)}</span></div>
+        <div class="result-row"><span class="label">Tax on Slabs</span><span class="value">${fmt(taxNew + rebateNew)}</span></div>
+        ${rebateNew > 0 ? `<div class="result-row"><span class="label">Rebate u/s 87A</span><span class="value" style="color:green;">− ${fmt(rebateNew)}</span></div>` : ''}
+        ${surchargeNew > 0 ? `<div class="result-row"><span class="label">Surcharge</span><span class="value">${fmt(surchargeNew)}</span></div>` : ''}
+        <div class="result-row"><span class="label">Health & Education Cess (4%)</span><span class="value">${fmt(cessNew)}</span></div>
+      </div>
+      <div style="margin-bottom:18px;">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Old Regime</div>
+        <div class="result-row"><span class="label">Gross Income</span><span class="value">${fmt(income)}</span></div>
+        <div class="result-row"><span class="label">Total Deductions</span><span class="value">− ${fmt(totalDeductions)}</span></div>
+        <div class="result-row"><span class="label">Taxable Income</span><span class="value">${fmt(taxableOld)}</span></div>
+        <div class="result-row"><span class="label">Tax on Slabs</span><span class="value">${fmt(taxOld + rebateOld)}</span></div>
+        ${rebateOld > 0 ? `<div class="result-row"><span class="label">Rebate u/s 87A</span><span class="value" style="color:green;">− ${fmt(rebateOld)}</span></div>` : ''}
+        ${surchargeOld > 0 ? `<div class="result-row"><span class="label">Surcharge</span><span class="value">${fmt(surchargeOld)}</span></div>` : ''}
+        <div class="result-row"><span class="label">Health & Education Cess (4%)</span><span class="value">${fmt(cessOld)}</span></div>
+      </div>
+      <div class="regime-compare">
+        <div class="regime-box ${betterNew ? 'better' : 'worse'}">
+          <div class="r-label">New Regime</div>
+          <div class="r-tax">${fmt(totalNew)}</div>
+          <div class="r-tag">${betterNew ? '✓ Recommended' : 'Higher Tax'}</div>
+        </div>
+        <div class="regime-box ${!betterNew ? 'better' : 'worse'}">
+          <div class="r-label">Old Regime</div>
+          <div class="r-tax">${fmt(totalOld)}</div>
+          <div class="r-tag">${!betterNew ? '✓ Recommended' : 'Higher Tax'}</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:14px;line-height:1.6;">* Estimate only. Consult DJ Associates for accurate tax planning.</div>
+    `;
+
+    document.getElementById('it-placeholder').style.display = 'none';
+    document.getElementById('it-result').classList.add('show');
+    document.getElementById('it-result-body').innerHTML = html;
+  }
+
+  // ── GST CALCULATOR ──
+  function updateGSTLabels() {
+    const type = document.getElementById('gst-type').value;
+    document.getElementById('gst-amount-label').textContent =
+      type === 'add' ? 'Base Price (₹)' : 'GST-Inclusive Price (₹)';
+  }
+
+  document.getElementById('gst-rate').addEventListener('change', function() {
+    document.getElementById('gst-custom-field').style.display =
+      this.value === 'custom' ? 'block' : 'none';
+  });
+
+  function calcGST() {
+    const type   = document.getElementById('gst-type').value;
+    const amount = parseFloat(document.getElementById('gst-amount').value) || 0;
+    let rate = document.getElementById('gst-rate').value;
+    if (rate === 'custom') rate = parseFloat(document.getElementById('gst-custom').value) || 0;
+    else rate = parseFloat(rate);
+
+    if (!amount) { alert('Please enter an amount.'); return; }
+
+    let base, gstAmt, total;
+    if (type === 'add') {
+      base   = amount;
+      gstAmt = base * rate / 100;
+      total  = base + gstAmt;
+    } else {
+      total  = amount;
+      base   = total / (1 + rate / 100);
+      gstAmt = total - base;
+    }
+
+    const cgst = gstAmt / 2;
+    const sgst = gstAmt / 2;
+
+    const html = `
+      <div class="result-row"><span class="label">Base / Taxable Value</span><span class="value">${fmt(base)}</span></div>
+      <div class="result-row"><span class="label">GST Rate Applied</span><span class="value">${rate}%</span></div>
+      <div style="margin:12px 0 8px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Intra-State (CGST + SGST)</div>
+      <div class="result-row"><span class="label">CGST (${rate/2}%)</span><span class="value">${fmt(cgst)}</span></div>
+      <div class="result-row"><span class="label">SGST / UTGST (${rate/2}%)</span><span class="value">${fmt(sgst)}</span></div>
+      <div style="margin:12px 0 8px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Inter-State (IGST)</div>
+      <div class="result-row"><span class="label">IGST (${rate}%)</span><span class="value">${fmt(gstAmt)}</span></div>
+      <div class="result-total"><span>Total GST Amount</span><span class="tax-amt">${fmt(gstAmt)}</span></div>
+      <div class="result-total" style="margin-top:8px;background:#163459;"><span>${type === 'add' ? 'Final Invoice Amount' : 'Base Price'}</span><span class="tax-amt">${type === 'add' ? fmt(total) : fmt(base)}</span></div>
+    `;
+
+    document.getElementById('gst-placeholder').style.display = 'none';
+    document.getElementById('gst-result').classList.add('show');
+    document.getElementById('gst-result-body').innerHTML = html;
+  }
+
+  // ── TDS CALCULATOR ──
+  const tdsRates = {
+    '192':  { rate: null, note: 'As per income tax slab rates' },
+    '194A': { rate: 10,   note: 'Interest other than securities' },
+    '194C': { rate: 1,    note: '1% (Individual/HUF), 2% (others)' },
+    '194H': { rate: 5,    note: 'Commission or brokerage' },
+    '194I': { rate: 10,   note: 'Rent on land/building/furniture' },
+    '194J': { rate: 10,   note: 'Professional/technical fees' },
+    '194Q': { rate: 0.1,  note: 'Purchase of goods >₹50L/year' },
+  };
+
+  function updateTDSRate() {
+    const sec = document.getElementById('tds-section').value;
+    const info = tdsRates[sec];
+    const rateInput = document.getElementById('tds-rate');
+    if (info.rate === null) { rateInput.value = ''; rateInput.placeholder = 'Slab-based'; }
+    else rateInput.value = info.rate;
+  }
+  updateTDSRate();
+
+  function calcTDS() {
+    const sec    = document.getElementById('tds-section').value;
+    const amount = parseFloat(document.getElementById('tds-amount').value) || 0;
+    const pan    = document.getElementById('tds-pan').value;
+    let rate     = parseFloat(document.getElementById('tds-rate').value);
+
+    if (!amount) { alert('Please enter a payment amount.'); return; }
+    if (isNaN(rate)) {
+      alert('Section 192 (Salary) TDS is slab-based. Please use the Income Tax calculator tab for salary estimates.');
+      return;
+    }
+    if (pan === 'no') rate = Math.max(rate * 2, 20);
+
+    const tdsAmt = amount * rate / 100;
+    const netAmt = amount - tdsAmt;
+    const info   = tdsRates[sec];
+
+    const html = `
+      <div class="result-row"><span class="label">Gross Payment</span><span class="value">${fmt(amount)}</span></div>
+      <div class="result-row"><span class="label">TDS Rate Applied</span><span class="value">${rate}%${pan==='no' ? ' (No PAN — higher rate)' : ''}</span></div>
+      <div class="result-row"><span class="label">Section Note</span><span class="value" style="font-size:11px;color:var(--muted);text-align:right;">${info.note}</span></div>
+      <div class="result-total"><span>TDS to be Deducted</span><span class="tax-amt">${fmt(tdsAmt)}</span></div>
+      <div class="result-total" style="margin-top:8px;background:#163459;"><span>Net Amount Payable</span><span class="tax-amt">${fmt(netAmt)}</span></div>
+      <div style="font-size:11px;color:var(--muted);margin-top:14px;line-height:1.6;">* Deposit TDS by 7th of following month (March: 30th April). Consult DJ Associates for exact thresholds.</div>
+    `;
+
+    document.getElementById('tds-placeholder').style.display = 'none';
+    document.getElementById('tds-result').classList.add('show');
+    document.getElementById('tds-result-body').innerHTML = html;
+  }
+</script>
+</body>
+</html>
