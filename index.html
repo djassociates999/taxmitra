@@ -787,5 +787,541 @@
     invAddItem(); renderInv();
   }
 </script>
-</body>
+<style>
+/* ── Widget Container ── */
+#tm-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99999;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+}
+
+/* ── FAB Trigger Button ── */
+#tm-fab {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c9a84c 0%, #8a6218 100%);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.45), 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  margin-left: auto;
+}
+#tm-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(201,168,76,0.55), 0 2px 10px rgba(0,0,0,0.3);
+}
+#tm-fab svg { transition: opacity 0.2s, transform 0.2s; }
+#tm-fab .icon-chat { position: absolute; }
+#tm-fab .icon-close {
+  position: absolute;
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+#tm-widget.open #tm-fab .icon-chat { opacity: 0; transform: rotate(90deg); }
+#tm-widget.open #tm-fab .icon-close { opacity: 1; transform: rotate(0deg); }
+
+/* ── Notification Dot ── */
+#tm-notif {
+  position: absolute;
+  top: 0; right: 0;
+  width: 14px; height: 14px;
+  background: #e74c3c;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  animation: tm-pulse 2s infinite;
+}
+@keyframes tm-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.75; }
+}
+
+/* ── Tooltip ── */
+#tm-tooltip {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  background: #0d1b3e;
+  color: #f5e9c8;
+  font-size: 0.75rem;
+  padding: 7px 13px;
+  border-radius: 10px;
+  white-space: nowrap;
+  border: 1px solid rgba(201,168,76,0.3);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+#tm-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -6px; right: 20px;
+  width: 10px; height: 10px;
+  background: #0d1b3e;
+  border-right: 1px solid rgba(201,168,76,0.3);
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+  transform: rotate(45deg);
+}
+#tm-widget.open #tm-tooltip,
+#tm-tooltip.hidden { opacity: 0; }
+
+/* ── Chat Panel ── */
+#tm-panel {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  height: 520px;
+  max-height: calc(100vh - 110px);
+  background: #0d1b3e;
+  border-radius: 20px;
+  border: 1px solid rgba(201,168,76,0.25);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 4px 20px rgba(201,168,76,0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.85) translateY(20px);
+  transform-origin: bottom right;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(.22,1,.36,1), opacity 0.25s ease;
+}
+#tm-widget.open #tm-panel {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Panel Header ── */
+#tm-header {
+  background: linear-gradient(135deg, #162550 0%, #0d1b3e 100%);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+#tm-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c9a84c, #8a6218);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #0d1b3e;
+  flex-shrink: 0;
+}
+#tm-header-text { flex: 1; }
+#tm-header-text strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #e6c875;
+  font-weight: 600;
+}
+#tm-header-text span {
+  font-size: 0.68rem;
+  color: #8a9bc0;
+}
+#tm-online {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #2ecc71;
+  box-shadow: 0 0 6px #2ecc71;
+  flex-shrink: 0;
+}
+#tm-clear-btn {
+  background: none;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 6px;
+  color: #8a9bc0;
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+#tm-clear-btn:hover { color: #e6c875; border-color: rgba(201,168,76,0.5); }
+
+/* ── Messages Area ── */
+#tm-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 14px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#tm-messages::-webkit-scrollbar { width: 3px; }
+#tm-messages::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.2); border-radius: 4px; }
+
+/* ── Welcome Message ── */
+.tm-welcome-msg {
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 0.8rem;
+  color: #b0bdd8;
+  line-height: 1.55;
+  text-align: center;
+}
+.tm-welcome-msg strong { color: #e6c875; display: block; margin-bottom: 4px; font-size: 0.88rem; }
+
+/* ── Quick Chips ── */
+#tm-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 14px 8px;
+  flex-shrink: 0;
+}
+.tm-chip {
+  background: rgba(201,168,76,0.07);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 16px;
+  padding: 5px 11px;
+  font-size: 0.7rem;
+  color: #f5e9c8;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.tm-chip:hover {
+  background: rgba(201,168,76,0.18);
+  border-color: rgba(201,168,76,0.5);
+}
+
+/* ── Message Bubbles ── */
+.tm-msg {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  animation: tm-msgIn 0.3s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes tm-msgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tm-msg.tm-user { flex-direction: row-reverse; }
+
+.tm-msg-av {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; font-weight: 700;
+}
+.tm-msg.tm-ai .tm-msg-av {
+  background: linear-gradient(135deg, #c9a84c, #8a6218);
+  color: #0d1b3e;
+}
+.tm-msg.tm-user .tm-msg-av {
+  background: #1e3370;
+  border: 1px solid rgba(201,168,76,0.3);
+  color: #e6c875;
+}
+
+.tm-bubble {
+  max-width: 82%;
+  padding: 10px 13px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+.tm-msg.tm-ai .tm-bubble {
+  background: #111e40;
+  border: 1px solid rgba(201,168,76,0.12);
+  border-bottom-left-radius: 4px;
+  color: #dce6f5;
+}
+.tm-msg.tm-user .tm-bubble {
+  background: #1e3370;
+  border: 1px solid rgba(201,168,76,0.15);
+  border-bottom-right-radius: 4px;
+  color: #f0f4ff;
+}
+.tm-bubble strong { color: #e6c875; }
+.tm-bubble ul { padding-left: 16px; margin: 4px 0; }
+.tm-bubble li { margin-bottom: 3px; }
+
+/* ── Typing Dots ── */
+.tm-typing {
+  display: flex; gap: 4px; align-items: center;
+  padding: 10px 13px;
+  background: #111e40;
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+  width: fit-content;
+}
+.tm-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #c9a84c;
+  animation: tm-bounce 1.2s infinite ease-in-out;
+}
+.tm-dot:nth-child(2) { animation-delay: 0.2s; }
+.tm-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes tm-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
+  40% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ── Input Area ── */
+#tm-input-area {
+  padding: 10px 12px 14px;
+  border-top: 1px solid rgba(201,168,76,0.12);
+  flex-shrink: 0;
+}
+#tm-input-row {
+  display: flex;
+  gap: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 12px;
+  padding: 8px 8px 8px 12px;
+  transition: border-color 0.2s;
+}
+#tm-input-row:focus-within {
+  border-color: rgba(201,168,76,0.5);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.05);
+}
+#tm-textarea {
+  flex: 1;
+  background: transparent;
+  border: none; outline: none;
+  color: #f9f7f2;
+  font-family: inherit;
+  font-size: 0.8rem;
+  resize: none;
+  min-height: 20px;
+  max-height: 80px;
+  line-height: 1.5;
+  overflow-y: auto;
+}
+#tm-textarea::placeholder { color: #5a6e9a; }
+#tm-send {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #c9a84c, #8a6218);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; align-self: flex-end;
+  transition: opacity 0.2s, transform 0.15s;
+}
+#tm-send:hover:not(:disabled) { opacity: 0.85; transform: scale(1.05); }
+#tm-send:disabled { opacity: 0.3; cursor: not-allowed; }
+#tm-disclaimer {
+  text-align: center;
+  font-size: 0.6rem;
+  color: #4a5e88;
+  margin-top: 6px;
+}
+</style>
+
+<!-- Widget HTML -->
+<div id="tm-widget">
+  <div id="tm-tooltip">🤖 Ask TaxMitra AI</div>
+
+  <!-- Chat Panel -->
+  <div id="tm-panel">
+    <!-- Header -->
+    <div id="tm-header">
+      <div id="tm-avatar">TM</div>
+      <div id="tm-header-text">
+        <strong>TaxMitra AI</strong>
+        <span>GST · Income Tax · TDS · ITR</span>
+      </div>
+      <div id="tm-online"></div>
+      <button id="tm-clear-btn" onclick="tmClearChat()">Clear</button>
+    </div>
+
+    <!-- Messages -->
+    <div id="tm-messages">
+      <div class="tm-welcome-msg">
+        <strong>Namaste! I'm TaxMitra AI 🙏</strong>
+        Your tax assistant from DJ Associates, Hyderabad. Ask me anything about GST, Income Tax, TDS, or ITR filing.
+      </div>
+    </div>
+
+    <!-- Quick Chips -->
+    <div id="tm-chips">
+      <span class="tm-chip" onclick="tmSendChip(this)">GST registration?</span>
+      <span class="tm-chip" onclick="tmSendChip(this)">GSTR-1 deadline</span>
+      <span class="tm-chip" onclick="tmSendChip(this)">New vs Old Tax Regime</span>
+      <span class="tm-chip" onclick="tmSendChip(this)">TDS on salary</span>
+      <span class="tm-chip" onclick="tmSendChip(this)">ITR filing due date</span>
+    </div>
+
+    <!-- Input -->
+    <div id="tm-input-area">
+      <div id="tm-input-row">
+        <textarea id="tm-textarea" placeholder="Type your tax question..." rows="1"
+          onkeydown="tmHandleKey(event)" oninput="tmAutoResize(this)"></textarea>
+        <button id="tm-send" onclick="tmSend()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </div>
+      <div id="tm-disclaimer">General guidance only · For complex matters call 8790072850</div>
+    </div>
+  </div>
+
+  <!-- FAB Button -->
+  <button id="tm-fab" onclick="tmToggle()" aria-label="Open TaxMitra AI">
+    <div id="tm-notif"></div>
+    <!-- Chat Icon -->
+    <svg class="icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <!-- Close Icon -->
+    <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+(function() {
+  const SYSTEM = `You are TaxMitra AI, an expert tax assistant for DJ Associates, a reputed tax consultancy in Hyderabad, Telangana, India. You were built by Dixit of DJ Associates.
+
+Your expertise:
+- GST: Registration, GSTR-1/3B/9, ITC, e-way bills, GST notices, composition scheme, RCM, e-invoicing
+- Income Tax: ITR filing, FY 2025-26 slabs (New & Old Regime), deductions 80C/80D/80G/80E, capital gains, advance tax
+- TDS/TCS: Rates, due dates, Form 26AS, 24Q/26Q, TDS on salary/rent/professional fees
+- Business taxation: Presumptive taxation, proprietorship, partnership, LLP
+- Compliance deadlines, penalties, notices
+
+Style: Warm, professional, concise. Use ₹ and Indian number format (lakhs/crores). Keep answers practical and to the point. Use bullet points for lists. For complex situations, suggest consulting DJ Associates at 8790072850.`;
+
+  let tmMessages = [];
+  let tmLoading = false;
+  let tooltipHidden = false;
+
+  window.tmToggle = function() {
+    const w = document.getElementById('tm-widget');
+    w.classList.toggle('open');
+    if (w.classList.contains('open')) {
+      document.getElementById('tm-notif').style.display = 'none';
+      setTimeout(() => document.getElementById('tm-textarea').focus(), 300);
+    }
+    // Hide tooltip permanently after first click
+    if (!tooltipHidden) {
+      document.getElementById('tm-tooltip').classList.add('hidden');
+      tooltipHidden = true;
+    }
+  };
+
+  window.tmAutoResize = function(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+  };
+
+  window.tmHandleKey = function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); tmSend(); }
+  };
+
+  window.tmSendChip = function(el) {
+    document.getElementById('tm-textarea').value = el.textContent;
+    document.getElementById('tm-chips').style.display = 'none';
+    tmSend();
+  };
+
+  window.tmClearChat = function() {
+    tmMessages = [];
+    const msgs = document.getElementById('tm-messages');
+    msgs.innerHTML = `<div class="tm-welcome-msg"><strong>Chat cleared ✓</strong>Ask me a new tax question!</div>`;
+    document.getElementById('tm-chips').style.display = 'flex';
+  };
+
+  function tmAppendMsg(role, html) {
+    const msgs = document.getElementById('tm-messages');
+    const div = document.createElement('div');
+    div.className = `tm-msg tm-${role}`;
+    const initials = role === 'ai' ? 'TM' : 'You';
+    div.innerHTML = `<div class="tm-msg-av">${initials}</div><div class="tm-bubble">${html}</div>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function tmShowTyping() {
+    const msgs = document.getElementById('tm-messages');
+    const div = document.createElement('div');
+    div.className = 'tm-msg tm-ai'; div.id = 'tm-typing';
+    div.innerHTML = `<div class="tm-msg-av">TM</div>
+      <div class="tm-typing"><div class="tm-dot"></div><div class="tm-dot"></div><div class="tm-dot"></div></div>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function tmRemoveTyping() {
+    const t = document.getElementById('tm-typing');
+    if (t) t.remove();
+  }
+
+  function tmFormat(text) {
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/^[\*\-] (.+)$/gm, '<li>$1</li>');
+    text = text.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
+    text = text.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+    return text;
+  }
+
+  window.tmSend = async function() {
+    const ta = document.getElementById('tm-textarea');
+    const text = ta.value.trim();
+    if (!text || tmLoading) return;
+
+    tmLoading = true;
+    document.getElementById('tm-send').disabled = true;
+    ta.value = ''; ta.style.height = 'auto';
+    document.getElementById('tm-chips').style.display = 'none';
+
+    tmAppendMsg('user', text);
+    tmMessages.push({ role: 'user', content: text });
+    tmShowTyping();
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: SYSTEM,
+          messages: tmMessages
+        })
+      });
+      const data = await res.json();
+      tmRemoveTyping();
+      const reply = data.content?.[0]?.text || 'Sorry, could not get a response. Please try again.';
+      tmMessages.push({ role: 'assistant', content: reply });
+      tmAppendMsg('ai', tmFormat(reply));
+    } catch(e) {
+      tmRemoveTyping();
+      tmAppendMsg('ai', '⚠️ Network error. Please check your connection.');
+    }
+
+    tmLoading = false;
+    document.getElementById('tm-send').disabled = false;
+    ta.focus();
+  };
+
+  // Auto-hide tooltip after 4 seconds
+  setTimeout(() => {
+    if (!tooltipHidden) {
+      document.getElementById('tm-tooltip').style.opacity = '0';
+    }
+  }, 4000);
+})();
+</script>
+<!-- ============ END TaxMitra AI Widget ============ --></body>
 </html> 
