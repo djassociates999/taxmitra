@@ -789,13 +789,12 @@
 </script>
 
 <!-- ============================================================
-     TaxMitra AI Assistant — Floating Chat Widget
+     TaxMitra AI Assistant — Floating Chat Widget FINAL
      DJ Associates | djassociates999.github.io/taxmitra
      Powered by Cloudflare Worker + Gemini AI
      ============================================================ -->
-
 <style>
-#tm-widget{position:fixed;bottom:24px;right:24px;z-index:99999;font-family:'DM Sans','Segoe UI',sans-serif}
+#tm-widget{position:fixed;bottom:90px;right:24px;z-index:99999;font-family:'DM Sans','Segoe UI',sans-serif}
 #tm-fab{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#c9a84c,#8a6218);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(201,168,76,.45),0 2px 8px rgba(0,0,0,.3);transition:transform .2s;position:relative;margin-left:auto}
 #tm-fab:hover{transform:scale(1.08)}
 #tm-fab svg{transition:opacity .2s,transform .2s}
@@ -897,39 +896,39 @@
 
 <script>
 (function(){
-  var WORKER_URL = 'https://crimson-darkness-b990.jawahar-dixit.workers.dev/';
-  var history = [];
-  var busy = false;
-  var tipGone = false;
+  var WORKER_URL='https://crimson-darkness-b990.jawahar-dixit.workers.dev/';
+  var history=[];
+  var busy=false;
+  var tipGone=false;
 
-  window.tmToggle = function(){
-    var w = document.getElementById('tm-widget');
+  window.tmToggle=function(){
+    var w=document.getElementById('tm-widget');
     w.classList.toggle('open');
     if(w.classList.contains('open')){
       document.getElementById('tm-notif').style.display='none';
-      setTimeout(function(){ document.getElementById('tm-ta').focus(); },300);
-      if(!tipGone){ document.getElementById('tm-tip').style.opacity='0'; tipGone=true; }
+      setTimeout(function(){document.getElementById('tm-ta').focus();},300);
+      if(!tipGone){document.getElementById('tm-tip').style.opacity='0';tipGone=true;}
     }
   };
-  window.tmResize = function(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,80)+'px'; };
-  window.tmKey = function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); tmSend(); } };
-  window.tmChip = function(el){ document.getElementById('tm-ta').value=el.textContent; document.getElementById('tm-chips').style.display='none'; tmSend(); };
-  window.tmClear = function(){ history=[]; document.getElementById('tm-msgs').innerHTML='<div class="tm-welcome"><strong>Chat cleared ✓</strong>Ask me a new tax question!</div>'; document.getElementById('tm-chips').style.display='flex'; };
+  window.tmResize=function(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,80)+'px';};
+  window.tmKey=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();tmSend();}};
+  window.tmChip=function(el){document.getElementById('tm-ta').value=el.textContent;document.getElementById('tm-chips').style.display='none';tmSend();};
+  window.tmClear=function(){history=[];document.getElementById('tm-msgs').innerHTML='<div class="tm-welcome"><strong>Chat cleared ✓</strong>Ask me a new tax question!</div>';document.getElementById('tm-chips').style.display='flex';};
 
   function addMsg(role,html){
     var msgs=document.getElementById('tm-msgs');
     var d=document.createElement('div');
     d.className='tm-msg '+(role==='a'?'tm-a':'tm-u');
     d.innerHTML='<div class="tm-av2">'+(role==='a'?'TM':'You')+'</div><div class="tm-bbl">'+html+'</div>';
-    msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+    msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
   }
   function showTyping(){
     var msgs=document.getElementById('tm-msgs');
-    var d=document.createElement('div'); d.className='tm-msg tm-a'; d.id='tm-typing';
+    var d=document.createElement('div');d.className='tm-msg tm-a';d.id='tm-typing';
     d.innerHTML='<div class="tm-av2">TM</div><div class="tm-typing"><div class="tm-dot"></div><div class="tm-dot"></div><div class="tm-dot"></div></div>';
-    msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+    msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
   }
-  function hideTyping(){ var t=document.getElementById('tm-typing'); if(t) t.remove(); }
+  function hideTyping(){var t=document.getElementById('tm-typing');if(t)t.remove();}
   function fmt(t){
     t=t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
     t=t.replace(/^[\*\-] (.+)$/gm,'<li>$1</li>');
@@ -938,50 +937,48 @@
     return t;
   }
 
-  window.tmSend = async function(){
+  window.tmSend=async function(){
     var ta=document.getElementById('tm-ta');
     var text=ta.value.trim();
-    if(!text||busy) return;
+    if(!text||busy)return;
     busy=true;
     document.getElementById('tm-btn').disabled=true;
-    ta.value=''; ta.style.height='auto';
+    ta.value='';ta.style.height='auto';
     document.getElementById('tm-chips').style.display='none';
-    addMsg('u', text);
+    addMsg('u',text);
     showTyping();
 
-    // Build Gemini messages array
-    var messages = [];
+    var messages=[];
     history.forEach(function(m){
-      messages.push({ role: m.role==='assistant'?'model':'user', parts:[{text:m.content}] });
+      messages.push({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]});
     });
-    messages.push({ role:'user', parts:[{text:text}] });
+    messages.push({role:'user',parts:[{text:text}]});
 
-    try {
-      var res = await fetch(WORKER_URL, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ messages: messages })
+    try{
+      var res=await fetch(WORKER_URL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({messages:messages})
       });
-      var data = await res.json();
+      var data=await res.json();
       hideTyping();
-      var reply = data.reply || 'Sorry, could not get a response.';
-      history.push({role:'user', content:text});
-      history.push({role:'assistant', content:reply});
-      addMsg('a', fmt(reply));
-    } catch(err){
+      var reply=data.reply||'Sorry, could not get a response.';
+      history.push({role:'user',content:text});
+      history.push({role:'assistant',content:reply});
+      addMsg('a',fmt(reply));
+    }catch(err){
       hideTyping();
-      console.error('TaxMitra error:',err);
-      addMsg('a','⚠️ Could not reach the AI. Please try again in a moment.');
+      addMsg('a','⚠️ Could not reach the AI. Please try again.');
     }
     busy=false;
     document.getElementById('tm-btn').disabled=false;
     ta.focus();
   };
 
-  setTimeout(function(){ if(!tipGone) document.getElementById('tm-tip').style.opacity='0'; },4000);
+  setTimeout(function(){if(!tipGone)document.getElementById('tm-tip').style.opacity='0';},4000);
 })();
 </script>
-<!-- ============ END TaxMitra AI Widget ============ -->
+<!-- ============ END TaxMitra AI Widget FINAL ============ -->
 </body>
 </html>
 
