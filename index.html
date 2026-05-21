@@ -1298,9 +1298,15 @@ document.head.appendChild(styleSheet);
 </footer>
 
 <script>
-if (!localStorage.getItem('taxmitra_accepted')) {
-    alert('⚠️ DISCLAIMER: TaxMitra is a calculator tool, NOT professional tax advice. Consult a Chartered Accountant before filing.');
-    localStorage.setItem('taxmitra_accepted', 'true');
+setTimeout(function() {
+    if (!localStorage.getItem('taxmitra_accepted')) {
+        var result = confirm('⚠️ IMPORTANT DISCLAIMER\n\nTaxMitra is a calculator tool, NOT professional tax advice.\n\nYou MUST consult a qualified Chartered Accountant before filing any returns.\n\nDo you accept these terms?');
+        if (result) {
+            localStorage.setItem('taxmitra_accepted', 'true');
+        }
+    }
+}, 500);
+</script> 
 }
 </script>
 
