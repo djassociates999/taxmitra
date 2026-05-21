@@ -1285,10 +1285,27 @@ styleSheet.textContent = `
 `;
 
 document.head.appendChild(styleSheet);
-    </script> 
+  </script>
 
+<!-- DISCLAIMER FOOTER -->
+<footer style="text-align: center; padding: 20px; border-top: 1px solid #ddd; margin-top: 30px; color: #666;">
+    <p>
+        <a href="policies.html" target="_blank" style="color: #2e75b6;">📄 Privacy Policy</a> |
+        <a href="policies.html" target="_blank" style="color: #2e75b6;">📋 Terms of Service</a> |
+        <a href="policies.html" target="_blank" style="color: #2e75b6;">⚠️ Tax Disclaimer</a>
+    </p>
+    <p style="font-size: 0.9em;">DJ Associates | +91 8790072850</p>
+</footer>
 
-</body>
-</html>
+<script>
+if (!localStorage.getItem('taxmitra_accepted')) {
+    alert('⚠️ DISCLAIMER: TaxMitra is a calculator tool, NOT professional tax advice. Consult a Chartered Accountant before filing.');
+    localStorage.setItem('taxmitra_accepted', 'true');
+}
+</script>
+
+    </body>
+</html> 
+
 
  
