@@ -1341,7 +1341,11 @@ function printInvoice() {
   setTimeout(() => {
     const content = document.getElementById('invoice-preview-content').innerHTML;
     document.getElementById('print-container').innerHTML = content;
+    const invNum = document.getElementById('inv-number').value || 'Invoice';
+    const originalTitle = document.title;
+    document.title = invNum;
     window.print();
+    setTimeout(() => { document.title = originalTitle; }, 500);
   }, 300);
 }
 
