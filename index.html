@@ -27,9 +27,23 @@ body {
   min-height: 100vh;
 }
 
-/* PRINT STYLES — iframe handles printing, no page print needed */
+/* PRINT STYLES */
+.print-only { display: none; }
 @media print {
-  body * { visibility: hidden !important; }
+  header, .tabs-container, .wa-float, footer, .content {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+    width: 100%;
+    padding: 0;
+    background: white;
+    font-size: 12px;
+  }
+  .print-only table { font-size: 11px; }
+  .print-only th, .print-only td { padding: 5px !important; }
+  @page { size: A4; margin: 10mm; }
+  body { background: white !important; }
 }
 
 /* HEADER */
@@ -999,6 +1013,9 @@ footer a { color: var(--gold); text-decoration: none; }
 
 </div><!-- end content -->
 
+<!-- Print-only container -->
+<div class="print-only" id="print-container"></div>
+
 <!-- WhatsApp Float -->
 <a href="https://wa.me/918790072850" class="wa-float" title="WhatsApp DJ Associates">💬</a>
 
@@ -1244,73 +1261,73 @@ function generateInvoice() {
   const sellerContact = document.getElementById('inv-seller-contact').value || '';
 
   const preview = `
-    <div style="font-family:Arial,sans-serif;font-size:13px;">
+    <div style="font-family:Arial,sans-serif;font-size:12px;">
       <!-- Invoice Header — Seller Info only -->
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:14px;border-bottom:2px solid #0A1628;margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:10px;border-bottom:2px solid #0A1628;margin-bottom:10px;">
         <div>
-          <div style="font-size:20px;font-weight:700;color:#0A1628;">${sellerName}</div>
-          <div style="color:#666;margin-top:3px;">${sellerAddress}</div>
+          <div style="font-size:18px;font-weight:700;color:#0A1628;">${sellerName}</div>
+          <div style="color:#666;margin-top:2px;">${sellerAddress}</div>
           ${sellerContact ? `<div style="color:#666;">📞 ${sellerContact}</div>` : ''}
-          <div style="margin-top:4px;">GSTIN: <strong>${sellerGSTIN}</strong></div>
+          <div style="margin-top:2px;">GSTIN: <strong>${sellerGSTIN}</strong></div>
         </div>
         <div style="text-align:right;">
-          <div style="font-size:20px;font-weight:700;color:#FF6B00;">TAX INVOICE</div>
-          <div style="margin-top:4px;">Invoice No: <strong>${document.getElementById('inv-number').value || '-'}</strong></div>
+          <div style="font-size:18px;font-weight:700;color:#FF6B00;">TAX INVOICE</div>
+          <div style="margin-top:2px;">Invoice No: <strong>${document.getElementById('inv-number').value || '-'}</strong></div>
           <div>Date: <strong>${document.getElementById('inv-date').value || '-'}</strong></div>
           <div>Place of Supply: <strong>${document.getElementById('inv-pos').value || '-'}</strong></div>
         </div>
       </div>
 
       <!-- Bill To -->
-      <div style="background:#f9fafb;padding:10px;border-radius:6px;margin-bottom:14px;border-left:4px solid #0A1628;">
-        <div style="font-weight:700;margin-bottom:4px;color:#0A1628;">Bill To:</div>
-        <div style="font-size:15px;font-weight:700;">${document.getElementById('inv-buyer-name').value || '-'}</div>
+      <div style="background:#f9fafb;padding:8px;border-radius:6px;margin-bottom:10px;border-left:4px solid #0A1628;">
+        <div style="font-weight:700;margin-bottom:2px;color:#0A1628;">Bill To:</div>
+        <div style="font-size:14px;font-weight:700;">${document.getElementById('inv-buyer-name').value || '-'}</div>
         ${document.getElementById('inv-buyer-gstin').value ? `<div>GSTIN: <strong>${document.getElementById('inv-buyer-gstin').value}</strong></div>` : ''}
       </div>
 
       <!-- Items Table -->
-      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
         <thead style="background:#0A1628;color:white;">
           <tr>
-            <th style="padding:8px;text-align:left;">#</th>
-            <th style="padding:8px;text-align:left;">Description</th>
-            <th style="padding:8px;text-align:left;">HSN/SAC</th>
-            <th style="padding:8px;text-align:center;">Qty</th>
-            <th style="padding:8px;text-align:right;">Rate (Rs.)</th>
-            <th style="padding:8px;text-align:right;">Amount (Rs.)</th>
-            <th style="padding:8px;text-align:center;">GST%</th>
-            <th style="padding:8px;text-align:right;">Total (Rs.)</th>
+            <th style="padding:5px;text-align:left;">#</th>
+            <th style="padding:5px;text-align:left;">Description</th>
+            <th style="padding:5px;text-align:left;">HSN/SAC</th>
+            <th style="padding:5px;text-align:center;">Qty</th>
+            <th style="padding:5px;text-align:right;">Rate (Rs.)</th>
+            <th style="padding:5px;text-align:right;">Amount (Rs.)</th>
+            <th style="padding:5px;text-align:center;">GST%</th>
+            <th style="padding:5px;text-align:right;">Total (Rs.)</th>
           </tr>
         </thead>
         <tbody>${itemsHTML}</tbody>
         <tfoot>
-          <tr><td colspan="6" style="padding:6px;"></td><td style="padding:6px;text-align:right;font-weight:600;">Subtotal:</td><td style="padding:6px;text-align:right;">Rs. ${fmt(subtotal)}</td></tr>
+          <tr><td colspan="6" style="padding:4px;"></td><td style="padding:4px;text-align:right;font-weight:600;">Subtotal:</td><td style="padding:4px;text-align:right;">Rs. ${fmt(subtotal)}</td></tr>
           ${taxRows}
           <tr style="background:#0A1628;color:white;">
             <td colspan="6"></td>
-            <td style="padding:10px;text-align:right;font-weight:700;font-size:14px;">GRAND TOTAL:</td>
-            <td style="padding:10px;text-align:right;font-weight:700;font-size:14px;">Rs. ${fmt(subtotal + totalGST)}</td>
+            <td style="padding:7px;text-align:right;font-weight:700;font-size:13px;">GRAND TOTAL:</td>
+            <td style="padding:7px;text-align:right;font-weight:700;font-size:13px;">Rs. ${fmt(subtotal + totalGST)}</td>
           </tr>
         </tfoot>
       </table>
 
       <!-- Terms -->
-      <div style="margin-top:14px;font-size:12px;color:#555;">
+      <div style="margin-top:10px;font-size:11px;color:#555;">
         <strong>Terms & Conditions:</strong> Payment due within 30 days. Subject to Hyderabad jurisdiction.
       </div>
 
       <!-- Signature -->
-      <div style="display:flex;justify-content:space-between;margin-top:30px;font-size:12px;">
+      <div style="display:flex;justify-content:space-between;margin-top:20px;font-size:11px;">
         <div></div>
         <div style="text-align:center;">
-          <div style="border-top:1px solid #333;padding-top:6px;width:150px;">Authorised Signatory</div>
+          <div style="border-top:1px solid #333;padding-top:4px;width:140px;">Authorised Signatory</div>
           <div style="font-weight:700;margin-top:2px;">${sellerName}</div>
         </div>
       </div>
 
-      <!-- Powered by DJ Associates — Footer only -->
-      <div style="margin-top:20px;padding-top:10px;border-top:1px dashed #ccc;font-size:10px;color:#aaa;text-align:center;">
-        Powered by <strong>TaxMitra</strong> — DJ Associates, Tax Consultants, Hyderabad | +91 87900 72850 | djassociates999.github.io
+      <!-- Powered by DJ Associates — small footer -->
+      <div style="margin-top:14px;padding-top:6px;border-top:1px dashed #ddd;font-size:8px;color:#bbb;text-align:center;">
+        Powered by TaxMitra — DJ Associates, Tax Consultants, Hyderabad | +91 87900 72850
       </div>
     </div>`;
 
@@ -1323,46 +1340,9 @@ function printInvoice() {
   generateInvoice();
   setTimeout(() => {
     const content = document.getElementById('invoice-preview-content').innerHTML;
-    // Hide preview section temporarily
-    const previewSection = document.getElementById('invoice-preview-section');
-    if (previewSection) previewSection.style.display = 'none';
-    // Create hidden iframe for printing
-    let iframe = document.getElementById('print-frame');
-    if (iframe) iframe.remove();
-    iframe = document.createElement('iframe');
-    iframe.id = 'print-frame';
-    iframe.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;border:0;z-index:99999;background:white;';
-    document.body.appendChild(iframe);
-    const doc = iframe.contentDocument || iframe.contentWindow.document;
-    doc.open();
-    doc.write(`<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>GST Invoice</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; color: #333; font-size: 13px; }
-    table { width: 100%; border-collapse: collapse; }
-    th { background: #0A1628; color: white; padding: 8px; text-align: left; }
-    td { padding: 8px; border-bottom: 1px solid #eee; }
-    @page { margin: 15mm; }
-    @media print { body { padding: 0; } }
-  </style>
-</head>
-<body>${content}</body>
-</html>`);
-    doc.close();
-    // Print after content loads
-    iframe.onload = function() {
-      iframe.contentWindow.focus();
-      iframe.contentWindow.print();
-      // Remove iframe and show preview again after print
-      setTimeout(() => {
-        iframe.remove();
-        if (previewSection) previewSection.style.display = 'block';
-      }, 1000);
-    };
-  }, 400);
+    document.getElementById('print-container').innerHTML = content;
+    window.print();
+  }, 300);
 }
 
 // ===== TDS CALCULATOR =====
